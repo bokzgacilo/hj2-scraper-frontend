@@ -60,7 +60,7 @@ function App() {
 
     try {
       // Example POST request to your API endpoint
-      const response = await axios.post('http://localhost:3000/excel', { 
+      const response = await axios.post('http://62.72.29.28/excel', { 
         keywords: Keyword, 
         instanceNumber: instanceNumber,
         json: downloadableResults
@@ -118,7 +118,7 @@ function App() {
     }
 
     for(const url of textareaArray){
-      await axios.post('http://localhost:3000/check', {
+      await axios.post('http://62.72.29.28/check', {
         keyword : Keyword,
         url : url,
         instanceNumber : instanceNumber
