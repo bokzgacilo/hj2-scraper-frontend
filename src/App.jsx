@@ -187,7 +187,7 @@ function App() {
               SetTextarea1Count(lines.length)
             }}
           mt={2} size='sm' />
-          <Button mt={4} isDisabled={Keyword === "" && Textarea3 === "" || isScanning1} colorScheme="green" onClick={() => StartScan(1)}>{isScanning1 ? 'Scanning...' : 'Start Scan'}</Button>
+          <Button mt={4} isDisabled={Keyword === "" && Textarea1 === "" || isScanning1} colorScheme="green" onClick={() => StartScan(1)}>{isScanning1 ? 'Scanning...' : 'Start Scan'}</Button>
           <Button mt={2} isDisabled={Textarea1CurrentCount === Textarea1Count ? false : true} onClick={() => handleDownloadResult(1)}>Download Results</Button>
           <Text mt={4}>Scanning: {Textarea1CurrentCount} of {Textarea1Count}</Text>
         </Stack>
@@ -201,7 +201,7 @@ function App() {
               SetTextarea2Count(lines.length)
             }}
           mt={2} size='sm' />
-          <Button mt={4} isDisabled={Keyword !== "" && Textarea2 !== "" ? false : true} colorScheme="green" onClick={() => StartScan(2)}>Start Scan</Button>
+          <Button mt={4} isDisabled={Keyword === "" && Textarea2 === "" || isScanning2} colorScheme="green" onClick={() => StartScan(2)}>Start Scan</Button>
           <Button mt={2} isDisabled={Textarea2CurrentCount === Textarea2Count ? false : true} onClick={() => handleDownloadResult(2)}>Download Results</Button>
           <Text mt={4}>Scanning: {Textarea2CurrentCount} of {Textarea2Count}</Text>
         </Stack>
@@ -215,7 +215,7 @@ function App() {
               SetTextarea3Count(lines.length)
             }}
           mt={2} size='sm' />
-          <Button mt={4} isDisabled={Keyword !== "" && Textarea3 !== "" ? false : true} colorScheme="green" onClick={() => StartScan(3)}>Start Scan</Button>
+          <Button mt={4} isDisabled={Keyword === "" && Textarea3 === "" || isScanning3} colorScheme="green" onClick={() => StartScan(3)}>Start Scan</Button>
           <Button mt={2} isDisabled={Textarea3CurrentCount === Textarea3Count ? false : true} onClick={() => handleDownloadResult(3)}>Download Results</Button>
           <Text mt={4}>Scanning: {Textarea3CurrentCount} of {Textarea3Count}</Text>
         </Stack>
@@ -229,7 +229,7 @@ function App() {
               SetTextarea4Count(lines.length)
             }}
           mt={2} size='sm' />
-          <Button mt={4} isDisabled={Keyword !== "" && Textarea4 !== "" ? false : true} colorScheme="green" onClick={() => StartScan(4)}>Start Scan</Button>
+          <Button mt={4} isDisabled={Keyword === "" && Textarea4 === "" || isScanning4} colorScheme="green" onClick={() => StartScan(4)}>Start Scan</Button>
           <Button mt={2} isDisabled={Textarea4CurrentCount === Textarea4Count ? false : true} onClick={() => handleDownloadResult(4)}>Download Results</Button>
           <Text mt={4}>Scanning: {Textarea4CurrentCount} of {Textarea4Count}</Text>
         </Stack>
@@ -243,7 +243,7 @@ function App() {
               SetTextarea5Count(lines.length)
             }}
           mt={2} size='sm' />
-          <Button mt={4} isDisabled={Keyword !== "" && Textarea5 !== "" ? false : true} colorScheme="green" onClick={() => StartScan(5)}>Start Scan</Button>
+          <Button mt={4} isDisabled={Keyword === "" && Textarea5 === "" || isScanning5} colorScheme="green" onClick={() => StartScan(5)}>Start Scan</Button>
           <Button mt={2} isDisabled={Textarea5CurrentCount === Textarea5Count ? false : true} onClick={() => handleDownloadResult(5)}>Download Results</Button>
           <Text mt={4}>Scanning: {Textarea5CurrentCount} of {Textarea5Count}</Text>
         </Stack>
