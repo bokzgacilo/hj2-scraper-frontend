@@ -40,6 +40,28 @@ function App() {
   const [Textarea5Results, SetTextarea5Results] = useState([])
   const [isScanning5, setIsScanning5] = useState(false);
 
+  const axiosWithTimeout = (url, keyword, instanceNumber, timeout = 10000) => {
+    // Create a promise that rejects after the timeout
+    const timeoutPromise = new Promise((_, reject) =>
+      setTimeout(() => reject(new Error('Request timed out')), timeout)
+    );
+  
+    // Race the Axios post request against the timeout promise
+    return Promise.race([
+      axios.post('http://62.72.29.28/check', {
+        keyword: keyword,
+        url: url,
+        instanceNumber: instanceNumber
+      }, {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }),
+      timeoutPromise
+    ]);
+  };
+  
+
   useEffect(() => {
     if(Textarea1CurrentCount === Textarea1Count) {setIsScanning1(false)}
     if(Textarea2CurrentCount === Textarea2Count) {setIsScanning2(false)}
@@ -127,40 +149,67 @@ function App() {
         break;
     }
 
+    console.log(textareaArray)
+
     for(const url of textareaArray){
-      await axios.post('http://62.72.29.28/check', {
-        keyword : Keyword,
-        url : url,
-        instanceNumber : instanceNumber
-      }, {
-        headers: {
-          'Content-Type': 'application/json'
+      try {
+        await axiosWithTimeout(url, Keyword, instanceNumber, 10000)
+        .then(response => {
+          switch(response.data.instanceNumber){
+            case 1 :
+              SetTextarea1CurrentCount(prevCount => prevCount + 1)
+              SetTextarea1Results(prev => [...prev, response.data]);
+              break;
+            case 2 :
+              SetTextarea2CurrentCount(prevCount => prevCount + 1)
+              SetTextarea2Results(prev => [...prev, response.data]);
+              break;
+            case 3 :
+              SetTextarea3CurrentCount(prevCount => prevCount + 1)
+              SetTextarea3Results(prev => [...prev, response.data]);
+              break;
+            case 4 :
+              SetTextarea4CurrentCount(prevCount => prevCount + 1)
+              SetTextarea4Results(prev => [...prev, response.data]);
+              break;
+            case 5 :
+              SetTextarea5CurrentCount(prevCount => prevCount + 1)
+              SetTextarea5Results(prev => [...prev, response.data]);
+              break;
+          }
+        })
+      } catch (error) {
+        if (error.message === 'Request timed out') {
+          console.log(`Request to ${url} timed out. Skipping to next URL.`);
+
+          switch(instanceNumber){
+            case 1 :
+              SetTextarea1CurrentCount(prevCount => prevCount + 1)
+              SetTextarea1Results(prev => [...prev, {message : url, instanceNumber: instanceNumber, results : []}]);
+              break;
+            case 2 :
+              SetTextarea2CurrentCount(prevCount => prevCount + 1)
+              SetTextarea2Results(prev => [...prev, {message : url, instanceNumber: instanceNumber, results : []}]);
+              break;
+            case 3 :
+              SetTextarea3CurrentCount(prevCount => prevCount + 1)
+              SetTextarea3Results(prev => [...prev, {message : url, instanceNumber: instanceNumber, results : []}]);
+              break;
+            case 4 :
+              SetTextarea4CurrentCount(prevCount => prevCount + 1)
+              SetTextarea4Results(prev => [...prev, {message : url, instanceNumber: instanceNumber, results : []}]);
+              break;
+            case 5 :
+              SetTextarea5CurrentCount(prevCount => prevCount + 1)
+              SetTextarea5Results(prev => [...prev, {message : url, instanceNumber: instanceNumber, results : []}]);
+              break;
+          }
+        } else {
+          console.log(`Error processing ${url}:`, error.message);
         }
-      })
-      .then(response => {
-        switch(response.data.instanceNumber){
-          case 1 :
-            SetTextarea1CurrentCount(prevCount => prevCount + 1)
-            SetTextarea1Results(prev => [...prev, response.data]);
-            break;
-          case 2 :
-            SetTextarea2CurrentCount(prevCount => prevCount + 1)
-            SetTextarea2Results(prev => [...prev, response.data]);
-            break;
-          case 3 :
-            SetTextarea3CurrentCount(prevCount => prevCount + 1)
-            SetTextarea3Results(prev => [...prev, response.data]);
-            break;
-          case 4 :
-            SetTextarea4CurrentCount(prevCount => prevCount + 1)
-            SetTextarea4Results(prev => [...prev, response.data]);
-            break;
-          case 5 :
-            SetTextarea5CurrentCount(prevCount => prevCount + 1)
-            SetTextarea5Results(prev => [...prev, response.data]);
-            break;
-        }
-      })
+      }
+
+      
     }
   }
 
